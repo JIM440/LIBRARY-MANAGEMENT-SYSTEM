@@ -5,6 +5,15 @@
 package Library;
 import javax.swing.JOptionPane;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author INTER-TECH
@@ -14,9 +23,14 @@ public class AdminLogin extends javax.swing.JFrame {
     /**
      * Creates new form AdminLogin
      */
+    DBConnection conn;
+    private Object dbconn;
     public AdminLogin() {
         initComponents();
-    }
+        conn = new DBConnection();
+     }
+    
+ 
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -109,7 +123,6 @@ public class AdminLogin extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(38, 38, 38)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -127,6 +140,7 @@ public class AdminLogin extends javax.swing.JFrame {
                                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(txtpassword))))
                 .addContainerGap(136, Short.MAX_VALUE))
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -159,6 +173,7 @@ public class AdminLogin extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtusernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtusernameActionPerformed
@@ -171,26 +186,14 @@ public class AdminLogin extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        MainPage main = new MainPage();
+        this.hide();
+        main.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        String Username = txtusername.getText();
-        String password = txtpassword.getText();
-        
-        if(Username.equals("John") && password.equals("123")){
-         MainAdminDashboard m = new MainAdminDashboard();
-         this.hide();
-         m.setVisible(true);
-        }
-        else{
-            JOptionPane.showMessageDialog(this,"Username or Password Incorrect");
-            txtusername.setText("");
-            txtpassword.setText("");
-            txtusername.requestFocus();
-        
-        }
-        
+
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -240,4 +243,32 @@ public class AdminLogin extends javax.swing.JFrame {
     private javax.swing.JPasswordField txtpassword;
     private javax.swing.JTextField txtusername;
     // End of variables declaration//GEN-END:variables
+private void userLogin(String username, String password){
+    if(dbconn != null){
+    Connection dbconn = DBConnection.connectDB();
+    try {
+        PreparedStatement st = (PreparedStatement)
+            dbconn.prepareStatement("Select * from users WHERE username = ? AND password = ?");
+    String cpassword = String.valueOf(password);
+        
+    st.setString(1, username);
+    st.setString(2, password);
+    ResultSet res = st.executeQuery();
+    if(res.next()){
+        //display dashboard or new page after login
+        dispose();
+        MainAdminDashboard dash = new MainAdminDashboard();
+       dash.setVisible(true);
+    }
+    else{
+        JOptionPane.showMessageDialog(this, "Username or password incorrect");
+    }
+    } catch (SQLException ex){
+        Logger.getLogger(AdminLogin.class.getName()).log(Level.SEVERE, null, ex);
+    }}
+    else {
+        System.out.println("the connection not available");
+    }
+}
+
 }
