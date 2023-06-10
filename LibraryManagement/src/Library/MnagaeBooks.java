@@ -30,7 +30,7 @@ public class MnagaeBooks extends javax.swing.JFrame {
     
     public void Connect(){
         try {
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Library", "root", "root");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Library", "root", "678091386");
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(MnagaeBooks.class.getName()).log(Level.SEVERE, null, ex);
