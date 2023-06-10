@@ -79,7 +79,7 @@ public class AdminLogin extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Calibri", 0, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("  USERNMAE: ");
+        jLabel2.setText("  USERNAME: ");
 
         jLabel3.setFont(new java.awt.Font("Calibri", 0, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));

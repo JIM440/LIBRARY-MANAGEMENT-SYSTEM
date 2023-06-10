@@ -13,15 +13,15 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author INTER-TECH
  */
-public class MnagaeBooks extends javax.swing.JFrame {
+public class ManageStudents extends javax.swing.JFrame {
 
     /**
      * Creates new form MnagaeBooks
      */
-    public MnagaeBooks() {
+    public ManageStudents() {
         initComponents();
         Connect();
-        Load_book();
+        Load_student();
     }
     
     Connection con;
@@ -33,20 +33,20 @@ public class MnagaeBooks extends javax.swing.JFrame {
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Library", "root", "root");
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(MnagaeBooks.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ManageStudents.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(MnagaeBooks.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ManageStudents.class.getName()).log(Level.SEVERE, null, ex);
         }
        
     }
     
     
     
-    public void Load_book(){
+    public void Load_student(){
         int b;
         
         try {
-            pst = con.prepareStatement("select * from books");
+            pst = con.prepareStatement("select * from student");
         rs = pst.executeQuery();
         ResultSetMetaData rsd = rs.getMetaData();
         b = rsd.getColumnCount();
@@ -58,9 +58,10 @@ public class MnagaeBooks extends javax.swing.JFrame {
             Vector v2 = new Vector();
             
             for(int i=1; i<=b;i++){
+                  v2.add(rs.getString("name"));
                 v2.add(rs.getString("id"));
-                v2.add(rs.getString("name"));
-                v2.add(rs.getString("author"));
+                v2.add(rs.getString("username"));
+                  v2.add(rs.getString("password"));
             }
             
             d.addRow(v2);
@@ -70,7 +71,7 @@ public class MnagaeBooks extends javax.swing.JFrame {
         
         
         } catch (SQLException ex) {
-            Logger.getLogger(MnagaeBooks.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ManageStudents.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
@@ -95,8 +96,10 @@ public class MnagaeBooks extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
-        txtbookname = new javax.swing.JTextField();
-        txtbookauthor = new javax.swing.JTextField();
+        txtstudentname = new javax.swing.JTextField();
+        txtpassword = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        txtusername = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -107,7 +110,7 @@ public class MnagaeBooks extends javax.swing.JFrame {
         jLabel1.setBackground(new java.awt.Color(255, 51, 0));
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("       MANAGE BOOKS");
+        jLabel1.setText("       MANAGE STUDENTS");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -115,8 +118,8 @@ public class MnagaeBooks extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(264, 264, 264)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(290, Short.MAX_VALUE))
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -132,18 +135,18 @@ public class MnagaeBooks extends javax.swing.JFrame {
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("AUTHOR:");
+        jLabel3.setText("PASSWORD:");
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null}
+                {null, null, null, null}
             },
             new String [] {
-                "ID", "NAME", "AUTHOR"
+                "NAME", "ID", "USERNAME", "PASSWORD"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -193,30 +196,44 @@ public class MnagaeBooks extends javax.swing.JFrame {
             }
         });
 
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("USERNAME:");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(24, 24, 24))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel4))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtbookauthor, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txtbookname, javax.swing.GroupLayout.Alignment.TRAILING)))
+                            .addComponent(txtpassword, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txtstudentname, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txtusername, javax.swing.GroupLayout.Alignment.TRAILING)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(44, 44, 44)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 81, Short.MAX_VALUE)))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 434, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -226,15 +243,19 @@ public class MnagaeBooks extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(49, 49, 49)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGap(30, 30, 30)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
-                            .addComponent(txtbookname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(48, 48, 48)
+                            .addComponent(txtstudentname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(30, 30, 30)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtusername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4))
+                        .addGap(27, 27, 27)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
-                            .addComponent(txtbookauthor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(63, 63, 63)
+                            .addComponent(txtpassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(153, 153, 153)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton1)
                             .addComponent(jButton2))
@@ -266,26 +287,29 @@ public class MnagaeBooks extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        String name = txtbookname.getText();
-        String author = txtbookauthor.getText();
+        String name = txtstudentname.getText();
+        String password = txtpassword.getText();
+        String username = txtusername.getText();
         
         try {
-            pst = con.prepareStatement("insert into books(name, author) values(?,?)");
+            pst = con.prepareStatement("insert into student(name, password, username) values(?,?,?)");
             pst.setString(1, name);
-            pst.setString(2, author);
+            pst.setString(2, username);
+             pst.setString(3, password);
             int k = pst.executeUpdate();
             
             if(k==1){
-                JOptionPane.showMessageDialog(this,"book created");
-                txtbookname.setText("");
-                txtbookauthor.setText("");
-                  Load_book();
+                JOptionPane.showMessageDialog(this,"student created");
+                txtstudentname.setText("");
+                txtusername.setText("");
+                txtpassword.setText("");
+                  Load_student();
             }
             else{
                 JOptionPane.showMessageDialog(this,"Error!");
             }
         } catch (SQLException ex) {
-            Logger.getLogger(MnagaeBooks.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ManageStudents.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -294,9 +318,10 @@ public class MnagaeBooks extends javax.swing.JFrame {
             DefaultTableModel d1 = (DefaultTableModel)jTable1.getModel();
             int selectIndex = jTable1.getSelectedRow();
             
-            int id = Integer.parseInt(d1.getValueAt(selectIndex, 0).toString());
-            txtbookname.setText(d1.getValueAt(selectIndex, 1).toString());
-              txtbookauthor.setText(d1.getValueAt(selectIndex, 2).toString());
+            txtstudentname.setText(d1.getValueAt(selectIndex, 0).toString());
+            int id = Integer.parseInt(d1.getValueAt(selectIndex, 1).toString());
+            txtusername.setText(d1.getValueAt(selectIndex, 2).toString());
+              txtpassword.setText(d1.getValueAt(selectIndex, 3).toString());
             
               jButton1.setEnabled(false);
     }//GEN-LAST:event_jTable1MouseClicked
@@ -305,32 +330,37 @@ public class MnagaeBooks extends javax.swing.JFrame {
        DefaultTableModel d1 = (DefaultTableModel)jTable1.getModel();
             int selectIndex = jTable1.getSelectedRow();
             
-            int id = Integer.parseInt(d1.getValueAt(selectIndex, 0).toString());
+            int id = Integer.parseInt(d1.getValueAt(selectIndex, 1).toString());
           
         
         
-        String name = txtbookname.getText();
-        String author = txtbookauthor.getText();
+        String name = txtstudentname.getText();
+        String username = txtusername.getText();
+        String password = txtpassword.getText();
+        
         
         try {
-            pst = con.prepareStatement("update books set name=?,author=? where id = ?");
+            pst = con.prepareStatement("update student set name=?,username=?,password=? where id = ?");
             pst.setString(1, name);
-            pst.setString(2, author);
-            pst.setInt(3, id);
+            pst.setString(2, username);
+            pst.setString(3, password);
+             pst.setInt(4, id);
+            
             int k = pst.executeUpdate();
             
             if(k==1){
-                JOptionPane.showMessageDialog(this,"book updated");
-                txtbookname.setText("");
-                txtbookauthor.setText("");
-                  Load_book();
+                JOptionPane.showMessageDialog(this,"student updated");
+                txtstudentname.setText("");
+                txtusername.setText("");
+                txtpassword.setText("");
+                  Load_student();
                    jButton1.setEnabled(true);
             }
             else{
                 JOptionPane.showMessageDialog(this,"Error!");
             }
         } catch (SQLException ex) {
-            Logger.getLogger(MnagaeBooks.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ManageStudents.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -339,27 +369,28 @@ public class MnagaeBooks extends javax.swing.JFrame {
          DefaultTableModel d1 = (DefaultTableModel)jTable1.getModel();
             int selectIndex = jTable1.getSelectedRow();
             
-            int id = Integer.parseInt(d1.getValueAt(selectIndex, 0).toString());
+            int id = Integer.parseInt(d1.getValueAt(selectIndex, 1).toString());
           
  
         
         try {
-            pst = con.prepareStatement("delete from books where id = ?");
+            pst = con.prepareStatement("delete from student where id = ?");
             pst.setInt(1, id);
             int k = pst.executeUpdate();
             
             if(k==1){
-                JOptionPane.showMessageDialog(this,"book deleted");
-                txtbookname.setText("");
-                txtbookauthor.setText("");
-                  Load_book();
+                JOptionPane.showMessageDialog(this,"student deleted");
+                txtstudentname.setText("");
+                txtusername.setText("");
+                txtpassword.setText("");
+                  Load_student();
                    jButton1.setEnabled(true);
             }
             else{
                 JOptionPane.showMessageDialog(this,"Error!");
             }
         } catch (SQLException ex) {
-            Logger.getLogger(MnagaeBooks.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ManageStudents.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -387,20 +418,21 @@ public class MnagaeBooks extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MnagaeBooks.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ManageStudents.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MnagaeBooks.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ManageStudents.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MnagaeBooks.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ManageStudents.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MnagaeBooks.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ManageStudents.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MnagaeBooks().setVisible(true);
+                new ManageStudents().setVisible(true);
             }
         });
     }
@@ -413,11 +445,13 @@ public class MnagaeBooks extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField txtbookauthor;
-    private javax.swing.JTextField txtbookname;
+    private javax.swing.JTextField txtpassword;
+    private javax.swing.JTextField txtstudentname;
+    private javax.swing.JTextField txtusername;
     // End of variables declaration//GEN-END:variables
 }

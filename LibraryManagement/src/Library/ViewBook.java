@@ -60,7 +60,7 @@ public class ViewBook extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "NAME", "AUTHOR"
+                "ID", "NAME", "AUTHOR", "null"
             }
         ));
         jScrollPane1.setViewportView(BOOKS);
